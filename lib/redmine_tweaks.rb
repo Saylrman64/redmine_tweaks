@@ -65,8 +65,7 @@ if ActiveRecord::Base.connection.table_exists?(:settings)
 
   # include deface overwrites
   Rails.application.paths['app/overrides'] ||= []
-  tweaks_overwrite_dir = "#{Redmine::Plugin.directory}/redmine_tweaks/app/overrides".freeze
-  unless Rails.application.paths['app/overrides'].include?(tweaks_overwrite_dir)
-    Rails.application.paths['app/overrides'] << tweaks_overwrite_dir
+  Dir.glob("#{Rails.root}/plugins/*/app/overrides").each do |dir|
+    Rails.application.paths["app/overrides"] << dir unless Rails.application.paths["app/overrides"].include?(dir)
   end
 end
